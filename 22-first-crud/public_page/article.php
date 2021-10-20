@@ -2,14 +2,18 @@
 // il doit y exister l'id ET il doit être numérique int positif ET ce n'est pas 0
 if(isset($_GET['id'])&&ctype_digit($_GET['id'])&&!empty($_GET['id'])){
 
-    // transtypage de string to int
-    $idarticle = (int) $_GET['id'];
+   // transtypage de string en int
+    $idarticle =(int)$_GET['id'];
+    //requete dans une variable entre double guillemets
+    $sql="SELECT a.idthearticle, a.thearticletitle, a.thearticletext, a.thearticledate,
+    u.idtheuser, u.theuserlogin
+FROM thearticle a
+INNER JOIN  theuser u 
+ON u.idtheuser = a.theuser_idtheuser
+WHERE a.idthearticle = $idarticle ;";   
 
-    // requête
-    $sql="";
 
-
-// pas de variable id    
+// si pas de variable id    
 }else{
     // redirection
     header("Location: ./");
