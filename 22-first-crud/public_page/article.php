@@ -57,5 +57,9 @@ WHERE a.idthearticle = $idarticle ;";
     <h1>First CRUD | Article | <?=$result['thearticletitle']?></h1>
     <p><?=nl2br($result['thearticletext']); // nl2br remplace les retours à la ligne par des br?></p>
     <h5>Ecrit par <a href="?page=user&id=<?=$result['idtheuser']?>"><?=$result['theuserlogin']?></a> le <?=frenchDate($result['thearticledate'])?></h5>
+    <?php
+    // menu publique
+    include "menu.php";
+    ?>
 </body>
 </html>
