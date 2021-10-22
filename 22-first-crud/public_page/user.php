@@ -1,5 +1,20 @@
 <?php
+// il doit y exister l'id ET il doit être numérique int positif ET ce n'est pas 0
+if(isset($_GET['id']) &&
+    ctype_digit($_GET['id'])&&
+    !empty($_GET['id'])){
 
+    // transtypage de string to int
+    $iduser = (int) $_GET['id'];
+
+    $sql="";
+
+// pas de variable id    
+}else{
+    // redirection
+    header("Location: ./");
+    die;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
