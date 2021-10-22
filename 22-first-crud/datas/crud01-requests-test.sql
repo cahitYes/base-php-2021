@@ -117,4 +117,17 @@ SELECT	u.idtheuser, u.theuserlogin,
 				ON u.idtheuser = a.theuser_idtheuser
 			WHERE u.idtheuser = 1
 		GROUP BY u.idtheuser
-		ORDER BY a.thearticledate DESC;         
+		ORDER BY a.thearticledate DESC; 
+
+# on va utiliser des GROUP_CONCAT pour concaténer les champs de l'article entre eux et utiliser le SEPARATOR choisi (par défaut "," suffisant pour les id), ici le choix est "|||". le ORDER BY dans le group_concat doit, si il est utilisé,  être mis dans tous les champs pour qu'ils correspondent toujours entre eux     
+SELECT	u.idtheuser, u.theuserlogin,
+		GROUP_CONCAT(a.idthearticle ORDER BY a.thearticledate DESC) AS idthearticle, 
+        GROUP_CONCAT(a.thearticletitle ORDER BY a.thearticledate DESC SEPARATOR '|||') AS thearticletitle,
+        GROUP_CONCAT(SUBSTR(a.thearticletext,1,150) ORDER BY a.thearticledate DESC SEPARATOR '|||') AS thearticletext, 
+        GROUP_CONCAT(a.thearticledate ORDER BY a.thearticledate DESC SEPARATOR '|||') AS thearticledate
+			FROM theuser u
+				LEFT JOIN thearticle a
+				ON u.idtheuser = a.theuser_idtheuser
+			WHERE u.idtheuser = 1
+		GROUP BY u.idtheuser
+		;        
