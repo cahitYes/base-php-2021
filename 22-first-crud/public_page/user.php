@@ -52,9 +52,9 @@ if(isset($_GET['id']) &&
     // menu publique
     include "menu.php";
     ?>
-    <pre>
+    <!--<pre>
         <?php print_r($result) ?>
-    </pre>
+    </pre>-->
     <h1>First CRUD | User | <?= $result['theuserlogin']?></h1>
     <?php
     // l'utilisateur n'a pas écrit d'article(s), le champs avec les id d'articles est vide
@@ -79,13 +79,22 @@ if(isset($_GET['id']) &&
 
     ?>
     <h3>Il y a <?=$nbArticle?> article<?=$nb?> écrit par <?= $result['theuserlogin']?></h3>
-    <pre>
+    <!--<pre>
         <?php print_r($idArticle) ?>
         <?php print_r($titleArticle) ?>
         <?php print_r($textArticle) ?>
         <?php print_r($dateArticle) ?>
-    </pre>
+    </pre>-->
     <?php
+        // comme les 4 tableaux indexés ont le même nombre d'entrées, $valeur sera utilisée uniquement pour l'id de l'article, car c'est sur ce tableau qu'on fait le foreach, et $clef servira à faire le lien avec les 3 autres tableaux
+        foreach($idArticle AS $clef => $valeur):
+    ?>
+    <hr>
+    <h4><?=$titleArticle[$clef];// titre?></h4>
+    <p><?=cuteTheText($textArticle[$clef],NEWS_USER_LENGTH)// texte?> <a href="?page=article&id=<?=$valeur; // valeur d'idarticle?>">Lire la suite</a></p>
+    <h5>Ecrit le <?=frenchDate($dateArticle[$clef]); // date?></h5>
+    <?php
+        endforeach;
     endif;
     ?>
 </body>
