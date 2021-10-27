@@ -1,10 +1,10 @@
 <?php
 /*
-Page d'accueil, doit passer par index.php (CF)
+Page d'accueil de l'admin, doit passer par index.php (CF)
 */
 
-// on va récupérer tous les articles avec le texte à maximum 220 caractères, avec l'utilisateur qui l'a écrit (voir datas/crud01-requests-test.sql)
-$sql="SELECT a.idthearticle, a.thearticletitle, SUBSTR(a.thearticletext,1,250) AS thearticletext, a.thearticledate,
+// on va récupérer tous les articles avec le texte à maximum 120 caractères, avec l'utilisateur qui l'a écrit, si il existe. C'est donc une jointure externe -> FROM thearticle LEFT JOIN theuser
+$sql="SELECT a.idthearticle, a.thearticletitle, SUBSTR(a.thearticletext,1,60) AS thearticletext, a.thearticledate,
              u.idtheuser, u.theuserlogin
     FROM thearticle a
         LEFT JOIN  theuser u 
@@ -33,14 +33,17 @@ if(empty($nbArticle)){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First CRUD | ADMIN</title>
+
+    <title>First CRUD | Administration</title>
+
 </head>
 <body>
     <?php
     // menu publique
     include "menu.php";
     ?>
-    <h1>First CRUD | ADMIN</h1>
+    <h1>First CRUD | Administration</h1>
+    <h4><a href='?page=create'>Créer un article</a></h4>
     <?php
     // on a pas encore d'articles
     if(isset($vide)):
@@ -53,15 +56,38 @@ if(empty($nbArticle)){
         $nb = $nbArticle===1 ? "" : "s";
     ?>
     <h3>Il y a <?=$nbArticle?> article<?=$nb?></h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Texte</th>
+                <th>Auteur</th>
+                <th>Date</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
     <?php
         foreach($result as $item): 
     ?>
-    <hr>
-    <h4><?=$item['thearticletitle']?></h4>
-    <p><?=cuteTheText($item['thearticletext'],NEWS_HOME_LENGTH)?> <a href="?page=article&id=<?=$item['idthearticle']?>">Lire la suite</a></p>
-    <h5>Ecrit par <a href="?page=user&id=<?=$item['idtheuser']?>"><?=$item['theuserlogin']?></a> le <?=frenchDate($item['thearticledate'])?></h5>
+    <tr>
+        <td><?=$item['idthearticle']?></td>
+        <td><?=cuteTheText($item['thearticletitle'],50)?></td>
+        <td><?=cuteTheText($item['thearticletext'],50)?></td>
+        <td><?=$item['theuserlogin']?></td>
+        <td><?=$item['thearticledate']?></td>
+        <td><a href='?page=update&id=<?=$item['idthearticle']?>'>Update</a></td>
+        <td><a href='?page=delete&&id=<?=$item['idthearticle']?>'>Delete</a></td>
+
+    </tr>
     <?php
         endforeach;
+        ?>
+        </tbody>
+    </table>
+    <?php
     endif;
     ?>
 </body>
