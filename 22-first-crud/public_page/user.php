@@ -48,7 +48,7 @@ if(isset($_GET['id']) &&
     <title>First CRUD | User | <?= $result['theuserlogin']?></title>
   
 </head>
-<body>
+
     <?php
     // menu publique
     include "menu.php";
@@ -64,10 +64,17 @@ if(isset($_GET['id']) &&
     <h3>il n y a pas encore d'article ecrit par <?= $result['theuserlogin']?></h3>
    <?php
     else : 
+            // on part du principe qu'on peut avoir plusieur articles ( une boucle d 'une iteration reste tres rapide à effecter)
+            // on va utiliser la fonction eplode qui permet de couper une chaine de caractere suivant un separteur
+            $idarticle = explode(","$result['idthearticle'])
+            $titlearticle = explode("|||", $result['thearticletitle'])
+            $textarticle = explode("|||", $result['thearticletext'])
+            $datearticle = explode("|||", $result['thearticledate'])
     ?>
     hahahah 
     <?php
     endif;
     ?>
+<body>   
 </body>
 </html>
