@@ -46,6 +46,7 @@ if(isset($_GET['id']) &&
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>First CRUD | User | <?= $result['theuserlogin']?></title>
+  
 </head>
 <body>
     <?php
@@ -56,5 +57,17 @@ if(isset($_GET['id']) &&
         <?php print_r($result) ?>
     </pre>
     <h1>First CRUD | User | <?= $result['theuserlogin']?></h1>
+    <?php
+    // l'utilisateur n' a pas encore ecrit d'articles
+    if empty($result['idthearticle'])):?>
+    
+    <h3>il n y a pas encore d'article ecrit par <?= $result['theuserlogin']?></h3>
+   <?php
+    else : 
+    ?>
+    hahahah 
+    <?php
+    endif;
+    ?>
 </body>
 </html>
