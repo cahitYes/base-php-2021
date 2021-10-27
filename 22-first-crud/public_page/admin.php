@@ -7,7 +7,7 @@ Page d'accueil, doit passer par index.php (CF)
 $sql="SELECT a.idthearticle, a.thearticletitle, SUBSTR(a.thearticletext,1,250) AS thearticletext, a.thearticledate,
              u.idtheuser, u.theuserlogin
     FROM thearticle a
-        INNER JOIN  theuser u 
+        LEFT JOIN  theuser u 
             ON u.idtheuser = a.theuser_idtheuser
             -- WHERE a.idthearticle=3
     ORDER BY a.thearticledate DESC;";
@@ -33,7 +33,7 @@ if(empty($nbArticle)){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First CRUD | Home</title>
+    <title>First CRUD | Admin</title>
 </head>
 <body>
     <?php
