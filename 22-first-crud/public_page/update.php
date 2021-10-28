@@ -104,10 +104,20 @@ if(mysqli_num_rows($request)){
     <h1>First CRUD | Article | UPDATE</h1>
 
     <form action="" name="insert" method="POST">
-        <input type="text" name="titre" placeholder="title" minlength="2" maxlength="150" value="<?=$result['thearticletitle']?>" required/><br>
-        <textarea name="texte" placeholder="your message" required></textarea><br>
+        <input type="text" name="titre" placeholder="title" minlength="2" maxlength="150" value="<?=$result['thearticletitle'] // le titre d'origine?>" required/><br>
+        <textarea name="texte" placeholder="your message" required><?=$result['thearticletext'] // le texte d'origine?></textarea><br>
+        <p>conversion du datetime en timestamps (secondes depuis le 1er janvier 1970 - UNIX)</p>
+        <p><?=$result['thearticledate']?><br>
+        <?=$unixTimeArticle = strtotime($result['thearticledate'])?> secondes</p>
+        <p>On va convertir au format datetime-local pour tous les navigateurs: 2018-06-12T19:30<br>
+        <?=date("Y-m-d\TH:i",$unixTimeArticle)?>
+    </p><br>
+        <input type="datetime-local" name="ladate" value="<?=date("Y-m-d\TH:i",$unixTimeArticle)?>" />
+        
         <select name="auteur">
-            <option>---</option>
+            <option>
+
+                ---</option>
             <?php
             foreach($recupUser as $auteur){
                 echo "<option value='".$auteur["idtheuser"]."'>{$auteur["theuserlogin"]}</option>";
