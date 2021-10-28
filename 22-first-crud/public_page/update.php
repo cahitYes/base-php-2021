@@ -44,11 +44,14 @@ WHERE a.idthearticle = $idarticle ;";
 // si le formulaire a été envoyé, le tableau POST n'est pas vide
 if(!empty($_POST)){
     // création des variables locales protégées
+
+    $idarticlePost = ($idarticle==$_POST['idarticle'])? (int) $_POST['idarticle']: 0;
     $titre = trim($_POST['titre']);  // on retire les espaces vides avant et derrière la chaîne
     $titre = strip_tags($titre); // retrait des tags html, js etc... 
     $titre = htmlspecialchars($titre,ENT_QUOTES);// encodage des caractères spéciaux avec les " et ' (ENT_QUOTES)
 
-    $texte = htmlspecialchars(strip_tags(trim($_POST['texte'])),ENT_QUOTES);
+    $texte = htmlspecialchars(strip_tags(trim($_POST['texte']),"<input>"),ENT_QUOTES);
+    $date = $_POST['ladate'];
 
     // conversion de l'id en entier
     $idAuteur = (int) $_POST['auteur'];
@@ -59,9 +62,9 @@ if(!empty($_POST)){
     
 
     // si tous les champs sont valides (sauf l'id auteur)
-    if(!empty($titre)&&!empty($texte)){
-        //$sql = "INSERT INTO thearticle (thearticletitle,thearticletext,theuser_idtheuser) VALUES('$titre','$texte',$idUser)";
-        //$insert = mysqli_query($db,$sql) or die("Erreur lors de l'insertion : ".mysqli_error($db));
+    if(!empty($titre)&&!empty($texte)&&!empty($idarticlePost)){
+        $sql = "UPDATE thearticle SET thearticletitle='$titre',thearticletext='$texte',thearticledate='$date',theuser_idtheuser=$idUser WHERE idthearticle=$idarticlePost";
+        $update = mysqli_query($db,$sql) or die("Erreur lors de l'update : ".mysqli_error($db));
 
         // redirection
         header("Location: ./?page=admin");
@@ -80,7 +83,7 @@ $request = mysqli_query($db,$sql) or die("Erreur lors de la récupération des u
 // si on a des auteurs (au moins 1)
 if(mysqli_num_rows($request)){
     // on les mets dans tableau indexé contenant des tableaux associatifs
-    $² = mysqli_fetch_all($request,MYSQLI_ASSOC);
+    $recupUser = mysqli_fetch_all($request,MYSQLI_ASSOC);
 }
 
 ?>
@@ -97,10 +100,9 @@ if(mysqli_num_rows($request)){
     // menu publique
     include "menu.php";
     ?>
-    <!--<pre>
-        <?php print_r($recupUser) ?>
+    <pre>
         <?php print_r($_POST) ?>
-    </pre>-->
+    </pre>
     <h1>First CRUD | Article | UPDATE</h1>
 
     <form action="" name="insert" method="POST">
@@ -112,15 +114,17 @@ if(mysqli_num_rows($request)){
         <p>On va convertir au format datetime-local pour tous les navigateurs: 2018-06-12T19:30<br>
         <?=date("Y-m-d\TH:i",$unixTimeArticle)?>
     </p><br>
-        <input type="datetime-local" name="ladate" value="<?=date("Y-m-d\TH:i",$unixTimeArticle)?>" />
-        
+        <input type="datetime-local" name="ladate" value="<?=date("Y-m-d\TH:i",$unixTimeArticle) // date pour les navigateurs?>" />
+        <input type="hidden" name="idarticle" value="<?=$result['idthearticle']// id dans le post en champ caché?>" />
         <select name="auteur">
             <option>
 
                 ---</option>
             <?php
+            // tant qu'on a des auteurs on les affiche, si on est sur l'auteur d'origine, on le sélectionne
             foreach($recupUser as $auteur){
-                echo "<option value='".$auteur["idtheuser"]."'>{$auteur["theuserlogin"]}</option>";
+                $originUser = ($auteur["idtheuser"]==$result['idtheuser']) ? "selected" : "" ;
+                echo "<option value='".$auteur["idtheuser"]."' $originUser >{$auteur["theuserlogin"]}</option>";
             }
             ?>
             <input type="submit" value="Poster"/>
