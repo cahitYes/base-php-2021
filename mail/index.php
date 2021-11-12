@@ -13,7 +13,18 @@ if(empty($thename)||!$themail ||empty($thetext)){
     //création d'une variable pour l'erreur
     $message ="Votre mail n'a pas été envoyé,veuillez recommencer";
 }else{
-    $message="votre mail a bien été envoyé"
+    // on va créer nos variables pour l'envoie des mails
+    $to ="MAIL_ADMIN";
+    $subject ="Réponse à votre formulaire23-mai";
+    $message =",$thename."à écrit \n ".$thetext";
+    headers= array(
+        "From" =>"$themail",
+        "Reply-To" =>"$themail",
+        "X-Mailer" =>"PHP/". phpversion()
+    );
+    mail($themail,"depuis23-mai",$thename."à écrit \n ".$thetext);
+    // création de la variable de confirmation
+    $message="votre mail a bien été envoyé";
 }
 
 }
@@ -27,9 +38,14 @@ if(empty($thename)||!$themail ||empty($thetext)){
     <title>Contactez-nous</title>
 </head>
 <body>
-    <?phpif(isset($message));
-    ?>
+    <?php
+    if(isset($message)):
+        ?>
     <h3><?=$message?></h3>
+    <?php
+    endif;
+    ?>
+
     <h1>Contactez-nous</h1>
     <form action="" name="contact" method="POST">
         <input name="thename" placeholder="votre nom" required /><br>
