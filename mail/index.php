@@ -2,6 +2,13 @@
 // dépendances
 require_once "config.php";
 var_dump($_POST);
+// si le formulaire à été envoyé
+if(!empty($_POST)){
+    //traitement des variables (htmlspecialchar est souvent inutile sans insertion dans la DB)
+    $thename = htmlspecialchars(trim($_POST['thename']),ENT_QUOTES);
+    $themail = filter_var(trim ($_POST['themail']), FILTER_VALIDATE_EMAIL);
+    $thetext = htmlspecialchars(strip_tags(trim($_POST["thetext"])),ENT_QUOTES);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
