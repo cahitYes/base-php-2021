@@ -68,6 +68,8 @@ if(!empty($_POST)){
     if(isset($message)):
     ?>
     <h3><?=$message?></h3>
+    <h4>Pour en savoir plus sur les mails</h4>
+    <p><a href="https://www.php.net/manual/fr/function.mail.php" target="_blank">https://www.php.net/manual/fr/function.mail.php</a></p>
     <?php
     endif;
     ?>
