@@ -3,6 +3,7 @@
 // dépendances
 require_once "config.php";
 
+// modification de variables de configuration du serveur, utile pour le mail sur un serveur local (change le contenu de php.ini pour cette page seulement), inutile d'utiliser ini_set pour envoyer un mail sur un serveur distant, il suffit de paramétrer le smtp comme dans votre doc (gmail.com outlook etc...)
 ini_set('SMTP',SMTP_HOST);
 ini_set('smtp_port',SMTP_PORT);
 ini_set('sendmail_from',MAIL_ADMIN);
@@ -20,7 +21,21 @@ if(!empty($_POST)){
         // création d'une variable pour l'erreur
         $message = "Votre mail n'a pas été envoyé, veuillez recommencer";
     }else{
-        mail($themail, 'Depuis 23-mail', $thename." à écrit : \n".$thetext);
+        // on va créer nos variables pour l'envoi des mails
+
+        // premier, envoi du mail à l'admin
+        $aQui   = MAIL_ADMIN;
+        $sujet = 'Réponse à votre formulaire 23-mail';
+        $message = $thename." à écrit : \n".$thetext;
+        $entete = array(
+             'From' => "$themail",
+             'Reply-To' => "$themail",
+             'X-Mailer' => 'PHP/' . phpversion()
+        );
+
+        mail($aQui, $sujet, $message, $entete);
+
+        // mail($themail, 'Depuis 23-mail', $thename." à écrit : \n".$thetext);
         // création de la variable de confirmation
         $message = "Votre mail a bien été envoyé, merci";
     }
