@@ -35,6 +35,18 @@ if(!empty($_POST)){
 
         mail($aQui, $sujet, $message, $entete);
 
+        // envoi du mail de confirmation à l'utilisateur
+        $aQui   = $themail;
+        $sujet = 'Merci pour votre mail sur 23-mail';
+        $message = "Vous recevrez une réponse dans les plus brefs délais";
+        $entete = array(
+             'From' => MAIL_ADMIN,
+             'Reply-To' => MAIL_ADMIN,
+             'X-Mailer' => 'PHP/' . phpversion()
+        );
+
+        mail($aQui, $sujet, $message, $entete);
+
         // mail($themail, 'Depuis 23-mail', $thename." à écrit : \n".$thetext);
         // création de la variable de confirmation
         $message = "Votre mail a bien été envoyé, merci";
