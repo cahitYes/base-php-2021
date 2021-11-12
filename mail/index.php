@@ -8,6 +8,14 @@ if(!empty($_POST)){
     $thename = htmlspecialchars(trim($_POST['thename']),ENT_QUOTES);
     $themail = filter_var(trim ($_POST['themail']), FILTER_VALIDATE_EMAIL);
     $thetext = htmlspecialchars(strip_tags(trim($_POST["thetext"])),ENT_QUOTES);
+// si au moin 1 équivalente à vide ou false
+if(empty($thename)||!$themail ||empty($thetext)){
+    //création d'une variable pour l'erreur
+    $message ="Votre mail n'a pas été envoyé,veuillez recommencer";
+}else{
+    $message="votre mail a bien été envoyé"
+}
+
 }
 ?>
 <!DOCTYPE html>
@@ -19,6 +27,9 @@ if(!empty($_POST)){
     <title>Contactez-nous</title>
 </head>
 <body>
+    <?phpif(isset($message));
+    ?>
+    <h3><?=$message?></h3>
     <h1>Contactez-nous</h1>
     <form action="" name="contact" method="POST">
         <input name="thename" placeholder="votre nom" required /><br>
