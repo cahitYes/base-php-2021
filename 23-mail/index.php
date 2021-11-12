@@ -1,6 +1,11 @@
 <?php
+
 // dépendances
 require_once "config.php";
+
+ini_set('SMTP',SMTP_HOST);
+ini_set('smtp_port',SMTP_PORT);
+ini_set('sendmail_from',MAIL_ADMIN);
 
 var_dump($_POST);
 
@@ -9,12 +14,14 @@ if(!empty($_POST)){
     // traîtement des variables (htmlspecialchars est souvant inutile sans insertion dans la DB)
     $thename = htmlspecialchars(trim($_POST['thename']),ENT_QUOTES);
     $themail = filter_var(trim($_POST['themail']), FILTER_VALIDATE_EMAIL);
-    $thetext = htmlspecialchars(strip_tags(trim($_POST['thetext'])),ENT_QUOTES);
+    $thetext = strip_tags(trim($_POST['thetext']));
     // si au moins 1 équivalante à vide ou false
     if(empty($thename) || !$themail || empty($thetext)){
         // création d'une variable pour l'erreur
         $message = "Votre mail n'a pas été envoyé, veuillez recommencer";
     }else{
+        mail($themail, 'Depuis 23-mail', $thename." à écrit : \n".$thetext);
+        // création de la variable de confirmation
         $message = "Votre mail a bien été envoyé, merci";
     }
 }
