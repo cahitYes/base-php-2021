@@ -1,60 +1,66 @@
--- MySQL Workbench Forward Engineering
+-- phpMyAdmin SQL Dump
+-- version 4.9.2
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1:3307
+-- Généré le :  ven. 22 oct. 2021 à 09:47
+-- Version du serveur :  10.4.10-MariaDB
+-- Version de PHP :  7.3.12
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+SET FOREIGN_KEY_CHECKS=0;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- -----------------------------------------------------
--- Schema crud01
--- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `crud01` ;
+--
+-- Base de données :  `crud01`
+--
+CREATE DATABASE IF NOT EXISTS `crud01` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `crud01`;
 
--- -----------------------------------------------------
--- Schema crud01
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `crud01` DEFAULT CHARACTER SET utf8mb4 ;
-USE `crud01` ;
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `crud01`.`theuser`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `crud01`.`theuser` ;
+--
+-- Structure de la table `thearticle`
+--
 
-CREATE TABLE IF NOT EXISTS `crud01`.`theuser` (
-  `idtheuser` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `theuserlogin` VARCHAR(80) NOT NULL,
-  `theuserpwd` VARCHAR(255) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin' NOT NULL,
-  `theusermail` VARCHAR(150) NOT NULL,
-  PRIMARY KEY (`idtheuser`))
-ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `theuserlogin_UNIQUE` ON `crud01`.`theuser` (`theuserlogin` ASC);
-
-CREATE UNIQUE INDEX `theusermail_UNIQUE` ON `crud01`.`theuser` (`theusermail` ASC);
-
-
--- -----------------------------------------------------
--- Table `crud01`.`thearticle`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `crud01`.`thearticle` ;
-
-CREATE TABLE IF NOT EXISTS `crud01`.`thearticle` (
-  `idthearticle` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `thearticletitle` VARCHAR(160) NOT NULL,
-  `thearticletext` TEXT NOT NULL,
-  `thearticledate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  `theuser_idtheuser` INT UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `thearticle`;
+CREATE TABLE IF NOT EXISTS `thearticle` (
+  `idthearticle` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `thearticletitle` varchar(160) NOT NULL,
+  `thearticletext` text NOT NULL,
+  `thearticledate` datetime DEFAULT current_timestamp(),
+  `theuser_idtheuser` int(10) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`idthearticle`),
-  CONSTRAINT `fk_thearticle_theuser`
-    FOREIGN KEY (`theuser_idtheuser`)
-    REFERENCES `crud01`.`theuser` (`idtheuser`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  KEY `fk_thearticle_theuser_idx` (`theuser_idtheuser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX `fk_thearticle_theuser_idx` ON `crud01`.`thearticle` (`theuser_idtheuser` ASC);
+-- --------------------------------------------------------
 
+--
+-- Structure de la table `theuser`
+--
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+DROP TABLE IF EXISTS `theuser`;
+CREATE TABLE IF NOT EXISTS `theuser` (
+  `idtheuser` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `theuserlogin` varchar(80) NOT NULL,
+  `theuserpwd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `theusermail` varchar(150) NOT NULL,
+  PRIMARY KEY (`idtheuser`),
+  UNIQUE KEY `theuserlogin_UNIQUE` (`theuserlogin`),
+  UNIQUE KEY `theusermail_UNIQUE` (`theusermail`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `thearticle`
+--
+ALTER TABLE `thearticle`
+  ADD CONSTRAINT `fk_thearticle_theuser` FOREIGN KEY (`theuser_idtheuser`) REFERENCES `theuser` (`idtheuser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+SET FOREIGN_KEY_CHECKS=1;
+COMMIT;
