@@ -1,6 +1,13 @@
 <?php
 // création ou continuation d'une session
 session_start();
+
+// si on est connecté (et que la connexion est toujours valide)
+if (isset($_SESSION['myId']) && $_SESSION['myId'] == session_id()) {
+    $connect = true;
+} else {
+    $connect = false;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,10 +26,36 @@ session_start();
         <li><a href="modo.php">Modo</a></li>
         <li><a href="redac.php">Rédacteur</a></li>
         <li><a href="tous.php">Tous</a></li>
-        <li><a href="connexion.php">Connexion</a></li>
-        <li><a href="deconnexion.php">Déconnexion</a></li>
+        <?php
+        if ($connect) :
+        ?>
+            <li><a href="deconnexion.php">Déconnexion</a></li>
+        <?php
+        else :
+        ?>
+            <li><a href="connexion.php">Connexion</a></li>
+        <?php
+        endif;
+        ?>
+
     </ul>
-    <h1>Accueil</h1>
+    <h1>Accueil <?php if ($connect) : ?> | Bienvenue <?= $_SESSION['login'] ?> |
+            <?php
+                    switch ($_SESSION['droit']):
+                        case 0:
+                            echo " Administrateur";
+                            break;
+                        case 1:
+                            echo " Modérateur";
+                            break;
+                        default:
+                            echo " Rédacteur";
+
+
+                    endswitch;
+            ?>
+        <?php endif ?></h1>
+
     <h2>Permissions</h2>
     <h3>Admin</h3>
     <p>Peut naviguer sur ces pages :</p>
