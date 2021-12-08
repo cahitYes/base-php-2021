@@ -13,15 +13,9 @@ session_start();
 </head>
 
 <body>
-    <ul>
-        <li><a href="./">Accueil</a></li>
-        <li><a href="admin.php">Admin</a></li>
-        <li><a href="modo.php">Modo</a></li>
-        <li><a href="redac.php">Rédacteur</a></li>
-        <li><a href="tous.php">Tous</a></li>
-        <li><a href="connexion.php">Connexion</a></li>
-        <li><a href="deconnexion.php">Déconnexion</a></li>
-    </ul>
+    <?php
+    include "menu.php";
+    ?>
     <h1>Tous</h1>
     <h2>Permissions</h2>
     <h3>Admin</h3>
