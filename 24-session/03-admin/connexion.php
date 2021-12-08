@@ -5,7 +5,8 @@ session_start();
 
 // si on est connecté (et que la connexion est toujours valide)
 if (isset($_SESSION['myId']) && $_SESSION['myId'] == session_id()) {
-    $connect = true;
+    // on veut se connecter en étant déjà connecté, alors autant se déconnecter avant !
+    header("location: deconnexion.php");
 } else {
     $connect = false;
 }

@@ -6,7 +6,7 @@ session_start();
 if (isset($_SESSION['myId']) && $_SESSION['myId'] == session_id()) {
     $connect = true;
 } else {
-    $connect = false;
+    header("Location: ./");
 }
 ?>
 <!DOCTYPE html>
@@ -24,7 +24,8 @@ if (isset($_SESSION['myId']) && $_SESSION['myId'] == session_id()) {
     include "menu.php";
     ?>
     <h1>Rédacteur</h1>
-    <h2>Permissions</h2>
+    <h2>Permissions aux admins (0), modérateurs (1) et rédacteurs (2)</h2>
+    <pre><?php print_r($_SESSION) ?></pre>
     <h3>Admin</h3>
     <p>Peut naviguer sur ces pages :</p>
     <ul>

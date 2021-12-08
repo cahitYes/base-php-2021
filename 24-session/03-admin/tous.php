@@ -24,7 +24,8 @@ if (isset($_SESSION['myId']) && $_SESSION['myId'] == session_id()) {
     include "menu.php";
     ?>
     <h1>Tous</h1>
-    <h2>Permissions</h2>
+    <h2>Permissions (tout le monde)</h2>
+    <pre><?php print_r($_SESSION) ?></pre>
     <h3>Admin</h3>
     <p>Peut naviguer sur ces pages :</p>
     <ul>
