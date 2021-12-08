@@ -3,6 +3,13 @@
 // création ou continuation d'une session
 session_start();
 
+// si on est connecté (et que la connexion est toujours valide)
+if (isset($_SESSION['myId']) && $_SESSION['myId'] == session_id()) {
+    $connect = true;
+} else {
+    $connect = false;
+}
+
 // création des utilisateurs et leurs persmissions
 $login = ['admin', 'modo', 'redac'];
 $pwd = ['123', '456', '789'];
