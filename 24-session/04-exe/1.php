@@ -1,11 +1,17 @@
 <?php
 session_start();
 
+// connexion obligatoire pour avoir accès à cette page
 if (!isset($_SESSION['id']) || $_SESSION['id'] != session_id()) {
     header("location: ./");
+    exit;
 }
 
-if ($_SESSION['user'] != "a1") header("location: ./");
+// si on est quelqu'un d'autre que le user "a1", on ne peut accéder à cette page
+if ($_SESSION['user'] != "a1") {
+    header("location: ./");
+    exit;
+}
 
 ?>
 <!DOCTYPE html>

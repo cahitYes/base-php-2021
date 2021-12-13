@@ -4,6 +4,7 @@ session_start();
 // si on est déjà connecté, retour vers l'accueil
 if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
     header("location: ./");
+    exit;
 }
 
 // si le formlaire a été envoyé (existence des 2 variables post Et qui ne sont pas vide)
@@ -18,6 +19,7 @@ if (isset($_POST['login'], $_POST['pwd']) && !empty($_POST['login']) && !empty($
 
         // redirection
         header("location: ./");
+        exit;
 
         // connexion ok avec a2
     } elseif ($_POST['login'] == "a2" && $_POST['pwd'] == "a2") {
@@ -28,6 +30,7 @@ if (isset($_POST['login'], $_POST['pwd']) && !empty($_POST['login']) && !empty($
 
         // redirection
         header("location: ./");
+        exit;
 
         // connexion ok avec a3
     } elseif ($_POST['login'] == "a3" && $_POST['pwd'] == "a3") {
@@ -38,6 +41,7 @@ if (isset($_POST['login'], $_POST['pwd']) && !empty($_POST['login']) && !empty($
 
         // redirection
         header("location: ./");
+        exit;
 
         // échec de connexion
     } else {
