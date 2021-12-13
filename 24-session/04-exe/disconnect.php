@@ -21,7 +21,7 @@ if (ini_get("session.use_cookies")) {
     );
 }
 
-// Finalement, on détruit la session.
+// Finalement, on détruit la session (supprime le fichier côté serveur).
 session_destroy();
 
 // redirection vers l'accueil

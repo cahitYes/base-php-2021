@@ -3,10 +3,13 @@ session_start();
 
 if (!isset($_SESSION['id']) || $_SESSION['id'] != session_id()) {
     header("location: ./");
+    exit();
 }
 
-if ($_SESSION['user'] != "a2") header("location: ./");
-
+if ($_SESSION['user'] != "a2") {
+    header("location: ./");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
